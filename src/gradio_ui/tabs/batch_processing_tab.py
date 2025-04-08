@@ -1,5 +1,7 @@
 import asyncio
+import json
 import os
+from pathlib import Path
 
 import gradio as gr
 
@@ -25,7 +27,7 @@ def create_batch_processing_tab():
             label="Select LLM Model",
             value=default_model,
         )
-        score_output = gr.Dataframe(headers=["File", "Score", "Error"])
+        score_output = gr.Dataframe(headers=["File", "Score", "Comment"])
         process_button = gr.Button("Process Directory")
 
         process_button.click(
@@ -41,4 +43,15 @@ async def process_batch(directory_path, prompt, model):
         return [["", "", "Error: Invalid directory path."]]
     results = await process_directory(directory_path, prompt)
     save_results_to_csv(results)
-    return [[file_path, score, error] for file_path, score, error in results]
+    return [
+        [
+            Path(file_path).stem,
+            final_score,
+            (
+                json.dumps(criteria, ensure_ascii=False, indent=2)
+                if criteria
+                else str(error)
+            ),
+        ]
+        for file_path, final_score, criteria, error in results
+    ]

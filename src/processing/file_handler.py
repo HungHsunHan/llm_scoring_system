@@ -44,6 +44,9 @@ def extract_detailed_scores_from_response(response):
         response = re.sub(r"\s*```$", "", response)
 
         data = json.loads(response)
+        if not isinstance(data, dict):
+            print(f"Invalid JSON response (not a dict):\n{response}")
+            return None, []
         final_score = data.get("final_score")
         raw_criteria = data.get("criteria", [])
         # Map criteria list to dict for lookup
