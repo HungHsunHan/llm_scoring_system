@@ -17,7 +17,7 @@ def create_batch_processing_tab():
     with gr.Column():
         directory_input = gr.Textbox(label="Directory Path")
         prompt_input = gr.Textbox(
-            label="Evaluation Criteria Prompt", value=DEFAULT_PROMPT
+            label="Evaluation Criteria Prompt", value=DEFAULT_PROMPT, lines=10, scale=1
         )
         model_dropdown = gr.Dropdown(
             [model["name"] for model in LLM_MODELS],
