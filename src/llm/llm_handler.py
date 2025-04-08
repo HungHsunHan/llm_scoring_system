@@ -50,7 +50,24 @@ async def get_llm_response(prompt, text, model=DEFAULT_LLM_MODEL):
             )
 
         completion = await asyncio.to_thread(sync_call)
-        return completion.choices[0].message.content
+        print(completion)
+
+        # Check for error in completion object
+        if completion and hasattr(completion, "error") and completion.error:
+            code = completion.error.get("code")
+            message = completion.error.get("message", "Unknown error")
+            if code == 429:
+                raise RuntimeError(f"Rate limit exceeded: {message}")
+            else:
+                raise RuntimeError(f"LLM API error (code {code}): {message}")
+
+        if not completion:
+            raise ValueError("LLM response is None")
+
+        try:
+            return completion.choices[0].message.content
+        except Exception:
+            raise
     except Exception as e:
         import traceback
 
