@@ -1,0 +1,65 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment
+venv/
+.env/
+.env.bak/
+venv.bak/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints
+
+# macOS files
+.DS_Store
+
+# VSCode settings
+.vscode/
+
+# Python egg metadata
+*.egg-info/
+dist/
+build/
+
+# Logs and local data
+*.log
+*.sqlite3
+*.db
+*.csv
+
+# Environment variables
+.env
+
+# OS generated files
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# PyInstaller
+*.spec
+
+# Test results
+htmlcov/
+.tox/
+.coverage
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pyre type checker
+.pyre/
+
+# Pylint
+.pylint.d/
+
+# Ignore scoring output
+scoring_results.csv

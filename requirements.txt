@@ -1,0 +1,6 @@
+gradio
+python-docx
+PyPDF2
+asyncio
+openai
+python-dotenv
