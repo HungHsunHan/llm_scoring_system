@@ -1,10 +1,7 @@
 import os
 
 # OpenRouter API Key
-OPENROUTER_API_KEY = os.environ.get(
-    "OPENROUTER_API_KEY",
-    "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",
-)
+OPENROUTER_API_KEY = os.environ.get("OPENROUTER_API_KEY")
 
 # Available LLM Models
 LLM_MODELS = [
