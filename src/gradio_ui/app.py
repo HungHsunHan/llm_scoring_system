@@ -4,8 +4,22 @@ from src.gradio_ui.tabs import batch_processing_tab, single_file_tab
 
 
 def create_demo():
-    with gr.Blocks() as demo:
-        gr.Markdown("# Scoring System")
+    with gr.Blocks(
+        css="""
+    .gr-button {
+        background-color: #4CAF50;
+        color: white;
+        font-weight: bold;
+    }
+    .gr-textbox textarea {
+        font-family: monospace;
+        font-size: 14px;
+    }
+    """
+    ) as demo:
+        gr.Markdown(
+            "# Scoring System\nWelcome! Upload your files and get detailed LLM-based evaluations. Use the tabs below to select single or batch processing."
+        )
         with gr.Tab("Single File Scoring"):
             single_file_tab.create_single_file_tab()
         with gr.Tab("Batch Processing"):

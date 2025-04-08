@@ -52,4 +52,4 @@ async def get_llm_response(prompt, text, model=DEFAULT_LLM_MODEL):
         traceback.print_exc()
         if hasattr(e, "response") and hasattr(e.response, "text"):
             print("API response content:", e.response.text)
-        return None
+        return "Unable to evaluate at this time"

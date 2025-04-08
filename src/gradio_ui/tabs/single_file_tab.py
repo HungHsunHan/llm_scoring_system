@@ -24,21 +24,45 @@ def create_single_file_tab():
             value=default_model,
         )
         score_output = gr.Textbox(label="Score")
-        error_output = gr.Textbox(label="Error")
+        criteria_str = gr.Textbox(label="Criteria")
+        download_output = gr.File(label="Download CSV")
         process_button = gr.Button("Process File")
 
         process_button.click(
             process_single_file,
             inputs=[file_input, prompt_input, model_dropdown],
-            outputs=[score_output, error_output],
+            outputs=[score_output, criteria_str, download_output],
         )
 
 
 async def process_single_file(file_obj, prompt, model):
+    import datetime
+    import json
+    import os
+
     if file_obj is None:
-        return None, "Error: No file uploaded."
+        return None, "Error: No file uploaded.", None
+
     file_path = file_obj.name
     file_path, score, criteria, error = await process_file(file_path, prompt)
+
+    # Convert criteria list to pretty JSON string
+    try:
+        criteria_str = json.dumps(criteria, indent=2, ensure_ascii=False)
+    except Exception:
+        criteria_str = str(criteria)
+
     results = [(file_path, score, criteria, error)]
-    save_results_to_csv(results)
-    return score, error
+
+    # Generate timestamped filename
+    timestamp = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M")
+    csv_filename = f"results_{timestamp}.csv"
+    csv_path = os.path.join("data", csv_filename)
+
+    # Ensure data directory exists
+    os.makedirs("data", exist_ok=True)
+
+    # Save CSV
+    save_results_to_csv(results, csv_path)
+
+    return score, criteria_str, csv_path
