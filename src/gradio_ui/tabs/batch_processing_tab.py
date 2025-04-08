@@ -8,6 +8,7 @@ from src.llm.llm_handler import get_top_n_free_models
 from src.processing.file_handler import process_directory, save_results_to_csv
 
 
+# 創建批次處理的Gradio UI介面
 def create_batch_processing_tab():
     top_n_models = get_top_n_free_models()
     default_model = (
@@ -34,6 +35,7 @@ def create_batch_processing_tab():
         )
 
 
+# 非同步處理目錄中的所有文件並返回評分結果
 async def process_batch(directory_path, prompt, model):
     if not os.path.isdir(directory_path):
         return [["", "", "Error: Invalid directory path."]]

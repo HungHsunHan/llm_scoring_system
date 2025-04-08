@@ -7,6 +7,7 @@ from src.llm.llm_handler import get_top_n_free_models
 from src.processing.file_handler import process_file, save_results_to_csv
 
 
+# 創建單一文件處理的Gradio UI介面
 def create_single_file_tab():
     top_n_models = get_top_n_free_models()
     default_model = (
@@ -35,6 +36,7 @@ def create_single_file_tab():
         )
 
 
+# 處理單個文件並返回評分結果和標準
 async def process_single_file(file_obj, prompt, model):
     import datetime
     import json

@@ -8,6 +8,7 @@ from src.llm.llm_handler import get_llm_response
 from src.processing.document_parser import parse_document
 
 
+# 從LLM回應中提取分數(0-100)，若無效則返回None
 def extract_score_from_response(response):
     """
     Extracts an integer score between 0 and 100 from the LLM response text.
@@ -26,6 +27,8 @@ def extract_score_from_response(response):
     return None
 
 
+# 解析LLM的JSON回應，提取最終分數和評分標準
+# 返回 (final_score, criteria_list)，若無效則返回 (None, [])
 def extract_detailed_scores_from_response(response):
     """
     Parses the LLM response JSON and extracts:
@@ -64,6 +67,7 @@ def extract_detailed_scores_from_response(response):
         return None, []
 
 
+# 處理單個文件：提取文本並從LLM獲取詳細評分
 async def process_file(file_path, prompt):
     """
     Processes a single file, extracts text, and gets detailed scores from the LLM.
@@ -94,6 +98,7 @@ async def process_file(file_path, prompt):
         return file_path, None, [], f"Exception during processing: {e}"
 
 
+# 非同步處理目錄中的所有文件
 async def process_directory(directory_path, prompt):
     """
     Processes all files in a directory asynchronously.
@@ -111,6 +116,7 @@ async def process_directory(directory_path, prompt):
     return results
 
 
+# 將評分結果保存為CSV文件（固定欄位格式）
 def save_results_to_csv(results, output_path="scoring_results.csv"):
     """
     Saves the scoring results to a CSV file with fixed columns.
