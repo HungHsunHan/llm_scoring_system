@@ -8,13 +8,16 @@ from config.config import (
     OPENROUTER_API_KEY,
     TOP_N_FREE_MODELS,
 )
+from src.utils.helpers import retry
 
+# 初始化OpenAI客戶端，連接到OpenRouter API
 client = OpenAI(
     base_url="https://openrouter.ai/api/v1",
     api_key=OPENROUTER_API_KEY,
 )
 
 
+# 從LLM_MODELS列表中獲取前N個免費模型
 def get_top_n_free_models(n=TOP_N_FREE_MODELS):
     """
     Returns the top N free LLM models from the LLM_MODELS list.
@@ -23,12 +26,15 @@ def get_top_n_free_models(n=TOP_N_FREE_MODELS):
     return free_models[:n]
 
 
+# 發送提示和文本到LLM並返回回應
+# 包含重試機制，最多嘗試3次
 async def get_llm_response(prompt, text, model=DEFAULT_LLM_MODEL):
     """
     Sends a prompt and text to the LLM and returns the response.
     """
     try:
 
+        @retry(max_attempts=3, delay=2)
         def sync_call():
             return client.chat.completions.create(
                 extra_headers={

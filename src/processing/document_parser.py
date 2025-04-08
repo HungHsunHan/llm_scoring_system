@@ -2,6 +2,7 @@ import docx
 import PyPDF2
 
 
+# 解析文件並提取文本內容，支援 .docx, .pdf 和 .txt 格式
 def parse_document(file_path):
     """
     Parses a document and extracts the text content.
